@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">ShareWork</string>
     <string name="kakao_app_key">8703166b8bbf88ed274cdb4e8f39aa61</string>
+    <string name="tmap_key">l7xxb91f48be6d3842a99b70e58b6c67f5ed</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

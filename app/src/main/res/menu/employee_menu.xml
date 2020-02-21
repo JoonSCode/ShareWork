@@ -2,20 +2,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_one"
-        app:showAsAction="ifRoom"
+        android:id="@+id/pt_tab1"
+        app:showAsAction="always"
         android:enabled="true"
         android:icon="@android:drawable/ic_dialog_info"
-        android:title="탭1" />
+        android:title="Heom" />
     <item
-        android:id="@+id/action_two"
-        app:showAsAction="ifRoom"
+        android:id="@+id/pt_tab2"
+        app:showAsAction="always"
+        android:enabled="true"
         android:icon="@android:drawable/ic_dialog_info"
         android:title="탭2" />
     <item
-        android:id="@+id/action_three"
-        app:showAsAction="ifRoom"
+        android:id="@+id/pt_tab3"
+        app:showAsAction="always"
         android:enabled="true"
         android:icon="@android:drawable/ic_dialog_info"
         android:title="탭3" />
+    <item
+        android:id="@+id/pt_tab4"
+        app:showAsAction="always"
+        android:enabled="true"
+        android:icon="@android:drawable/ic_dialog_info"
+        android:title="탭4" />
 </menu>

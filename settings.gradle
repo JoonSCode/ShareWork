@@ -1,2 +1,2 @@
-include ':app', ':naveridlogin_android_sdk_4.2.0'
+include ':app', ':naveridlogin_android_sdk_4.2.0', ':com.skt.Tmap_1.63'
 rootProject.name='ShareWork'
