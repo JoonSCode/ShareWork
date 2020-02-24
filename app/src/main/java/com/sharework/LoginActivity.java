@@ -3,9 +3,12 @@ package com.sharework;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
@@ -22,8 +25,6 @@ import com.kakao.util.helper.log.Logger;
 import com.nhn.android.naverlogin.OAuthLogin;
 import com.nhn.android.naverlogin.OAuthLoginHandler;
 import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -81,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
         mCustomKakaoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("카카오 로그인", "버튼 클릭");
                 mKakaoLoginButton.performClick();
             }
         });
@@ -153,7 +155,8 @@ private OAuthLoginHandler mOAuthLoginHandler = new OAuthLoginHandler() {
 
         @Override
         public void onSessionOpenFailed(KakaoException exception) {
-            setContentView(R.layout.activity_login);
+            Log.d("카카오 로그인", "로그인 실패");
+            //setContentView(R.layout.activity_login);
         }
     }
     private void requestMe() {
@@ -204,7 +207,7 @@ private OAuthLoginHandler mOAuthLoginHandler = new OAuthLoginHandler() {
         });
     }
     protected void redirectMainActivity() {
-        final Intent intent = new Intent(this, MainActivity.class);
+        final Intent intent = new Intent(this, SelectUserTypeActivity.class);
         startActivity(intent);
         finish();
     }
