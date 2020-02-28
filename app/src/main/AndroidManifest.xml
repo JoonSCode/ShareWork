@@ -20,7 +20,8 @@
         <activity
             android:name=".PopupSignInActivity"
             android:theme="@style/PopupTheme" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity android:name=".LoginActivity" />
         <activity
             android:name=".SplashActivity"
@@ -35,6 +36,9 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
     </application>
 
 </manifest>
