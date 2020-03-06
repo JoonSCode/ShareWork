@@ -1,23 +1,12 @@
 package com.sharework;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
-
-import com.sharework.Data.JoinData;
-import com.sharework.Data.JoinResponse;
-import com.sharework.Data.RetrofitClient;
-import com.sharework.Data.ServiceApi;
 
 import androidx.appcompat.app.AppCompatActivity;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class SignUpActivity extends AppCompatActivity {
     private Button mConfirmBtn;
@@ -26,8 +15,6 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText mEmailView;
     private EditText mPasswordView;
     private EditText mNameView;
-
-    private ServiceApi service;
 
 
     @Override
@@ -56,11 +43,8 @@ public class SignUpActivity extends AppCompatActivity {
         mPasswordView = findViewById(R.id.sign_up_pwd);
         mNameView = findViewById(R.id.sign_up_name);
 
-        service = RetrofitClient.getClient().create(ServiceApi.class);
-
 
     }
-
 
     private void attemptJoin() {
         mNameView.setError(null);
@@ -106,32 +90,8 @@ public class SignUpActivity extends AppCompatActivity {
         if (cancel) {
             focusView.requestFocus();
         } else {
-            startJoin(new JoinData(name, email, password));
+
         }
-    }
-
-    private void startJoin(JoinData data) {
-        service.userJoin(data).enqueue(new Callback<JoinResponse>() {
-            @Override
-            public void onResponse(Call<JoinResponse> call, Response<JoinResponse> response) {
-                JoinResponse result = response.body();
-                Toast.makeText(SignUpActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
-
-                final Intent intent = new Intent(getApplicationContext(), SignUp2Activity.class);
-                startActivity(intent);
-                finish();
-
-                if (result.getCode() == 200) {
-                    finish();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JoinResponse> call, Throwable t) {
-                Toast.makeText(SignUpActivity.this, "회원가입 에러 발생", Toast.LENGTH_SHORT).show();
-                Log.e("회원가입 에러 발생", t.getMessage());
-            }
-        });
     }
 
     private boolean isEmailValid(String email) {

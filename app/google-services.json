@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "976329587968",
+    "firebase_url": "https://sharework-427ef.firebaseio.com",
+    "project_id": "sharework-427ef",
+    "storage_bucket": "sharework-427ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:976329587968:android:96cbab5c12a4f101f1c7e5",
+        "android_client_info": {
+          "package_name": "com.sharework"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "976329587968-m42g8svn1lqu7dhv5q7u5422o26fgjg7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhSZ-8WyVb4YwQ4Ul8Lp1zrRwkm8a1Fz4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "976329587968-m42g8svn1lqu7dhv5q7u5422o26fgjg7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

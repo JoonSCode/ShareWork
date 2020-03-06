@@ -31,7 +31,7 @@ public class PopupSignInActivity extends Activity {
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Intent intent = new Intent(getApplicationContext(), SelectUserTypeActivity.class);
+                final Intent intent = new Intent(getApplicationContext(), PtMainActivity.class);
                 startActivity(intent);
                 finish();
             }
