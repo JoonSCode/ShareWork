@@ -1,11 +1,13 @@
 package com.sharework;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -13,11 +15,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.kakao.auth.AccessTokenCallback;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
@@ -36,14 +33,19 @@ import com.nhn.android.naverlogin.OAuthLogin;
 import com.nhn.android.naverlogin.OAuthLoginHandler;
 import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
 import com.sharework.Data.Users;
+import com.sharework.Function.Server;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
@@ -51,8 +53,8 @@ public class LoginActivity extends AppCompatActivity {
     private static OAuthLogin mOAuthLoginInstance;
     private static Context mContext;
 
-    private static String OAUTH_CLIENT_ID = "fFL3jEXaGGiMSQrJxFgY";
-    private static String OAUTH_CLIENT_SECRET = "WV6aaYZZXH";
+    private static String OAUTH_CLIENT_ID = "CLIENT_ID";
+    private static String OAUTH_CLIENT_SECRET = "CLIENT_SECRET";
     private static String OAUTH_CLIENT_NAME = "ShareWork";
 
 
@@ -66,11 +68,9 @@ public class LoginActivity extends AppCompatActivity {
     private Button mSignUpButton;
     private Button mSignInButton;
 
-    //파이어베이스
-    final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    Users user;
-
+    private Users user;
+    private Server server = new Server();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
         //네이버 용
         mOAuthLoginInstance = OAuthLogin.getInstance();
 
-        mContext = getApplicationContext();
+        mContext = LoginActivity.this;
         mOAuthLoginInstance.showDevelopersLog(true);
         mOAuthLoginInstance.init(mContext, OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, OAUTH_CLIENT_NAME);
         //카카오 용
@@ -109,13 +109,11 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-        mOAuthLoginButton = findViewById(R.id.buttonOAuthLoginImg);
-        mOAuthLoginButton.setOAuthLoginHandler(mOAuthLoginHandler);
         mCustomNaverButton = findViewById(R.id.activity_login_btn_naver);
         mCustomNaverButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mOAuthLoginButton.performClick();
+                mOAuthLoginInstance.startOauthLoginActivity((Activity) mContext, mOAuthLoginHandler);
             }
         });
 
@@ -142,7 +140,13 @@ private OAuthLoginHandler mOAuthLoginHandler = new OAuthLoginHandler() {
     @Override
     public void run(boolean success) {
         if (success) {
-            redirectMainActivity(1);
+            String accessToken = mOAuthLoginInstance.getAccessToken(mContext);
+            String refreshToken = mOAuthLoginInstance.getRefreshToken(mContext);
+            long expiresAt = mOAuthLoginInstance.getExpiresAt(mContext);
+            String tokenType = mOAuthLoginInstance.getTokenType(mContext);
+
+            new NaverProfileTask().execute(accessToken);
+            Log.d("네이버 로그인", mOAuthLoginInstance.getAccessToken(getApplicationContext()));
         } else {
 
             Toast.makeText(mContext, "네이버 로그인 실패", Toast.LENGTH_SHORT).show();
@@ -229,27 +233,8 @@ private OAuthLoginHandler mOAuthLoginHandler = new OAuthLoginHandler() {
                     }
                 }
 
+                new getUserTask().execute(USER_KEY);//유저 체크하고 있으면 받아오고 없으면 타입 받는 것으로 이동
 
-
-                DocumentReference userRef = db.collection("Users").document(USER_KEY); //유저 확인
-                userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) { //가입 이미 되어있음
-                                Log.d("로그인", "기존유저");
-                                user = task.getResult().toObject(Users.class);
-                                redirectMainActivity(user.getType());
-                            } else {//안되어있음
-                                Log.d("로그인", "신규유저");
-                                redirectSignUp2Activity();
-                            }
-                        } else {
-                            Log.d("에러", "get failed with ", task.getException());
-                        }
-                    }
-                });
             }
 
         });
@@ -278,35 +263,28 @@ private OAuthLoginHandler mOAuthLoginHandler = new OAuthLoginHandler() {
 
 
 
-
     //기존 유저: 유저 타입을 받아 해당하는 화면으로 전환
     protected void redirectMainActivity(int type) {
         final Intent intent;
 
-        HashMap<String , Object> updates = new HashMap<>();//최근 접속시간 갱신
-        updates.put("last_login_at", Calendar.getInstance().getTime());
-        db.collection("Users").document(user.getId()).update(updates);
+        user.setLast_login_at(Calendar.getInstance().getTime());//최근 접속시간 갱신
+        server.setUser(user);
+        server.updateUser();
 
-        if(type == 0) {//알바
+        if(type == 0) //알바
             intent = new Intent(this, PtMainActivity.class);
-        }
-        else {
+        else
             intent = new Intent(this, BsMainActivity.class);
-        }
-        Log.d("로그인", "1");
+
         startActivity(intent);
-        Log.d("로그인", "2");
         finish();
     }
 //신규유저 로그인 유저 타입을 받기 위해 이동
     protected void redirectSignUp2Activity() {
         Intent intent = new Intent(this, SignUp2Activity.class);
-        intent.putExtra("USER", user);
         startActivity(intent);
         finish();
     }
-
-
 
 
 
@@ -327,6 +305,103 @@ private OAuthLoginHandler mOAuthLoginHandler = new OAuthLoginHandler() {
         }
     }
 
+    protected class getUserTask extends AsyncTask<String, Integer, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            server.loadUser(strings[0]);
+            while (server.getUsers() == null && server.isUserExist()) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            Log.d("네이버 로그인", "테스트 "+ server.isUserExist());
+
+            return server.isUserExist();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isExist) {
+            if(isExist){
+                user = server.getUsers();
+                Log.d("로그인", "메인으로 이동");
+                redirectMainActivity(user.getType());
+            }
+            else {
+                server.setUser(user);
+                redirectSignUp2Activity();
+            }
+        }
+    }
 
 
+    class NaverProfileTask extends AsyncTask<String, Void, String> {
+        String result;
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String token = strings[0];// 네이버 로그인 접근 토큰;
+            String header = "Bearer " + token; // Bearer 다음에 공백 추가
+            try {
+                String apiURL = "https://openapi.naver.com/v1/nid/me";
+                URL url = new URL(apiURL);
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("GET");
+                con.setRequestProperty("Authorization", header);
+                int responseCode = con.getResponseCode();
+                BufferedReader br;
+                if (responseCode == 200) { // 정상 호출
+                    br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                } else {  // 에러 발생
+                    br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+                }
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+
+                while ((inputLine = br.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                result = response.toString();
+                br.close();
+                System.out.println(response.toString());
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            //result 값은 JSONObject 형태로 넘어옵니다.
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                Log.d("네이버 로그인", "값 받아옴");
+
+                //넘어온 result 값을 JSONObject 로 변환해주고, 값을 가져오면 되는데요.
+                // result 를 Log에 찍어보면 어떻게 가져와야할 지 감이 오실거에요.
+                JSONObject object = new JSONObject(result);
+                Log.d("네이버 로그인", "값: "+ object.toString());
+                Log.d("네이버 로그인", "테스트: "+ object.getString("resultcode"));
+                Log.d("네이버 로그인", "테스트22: "+ object.getString("resultcode").equals("00"));
+
+
+                if (object.getString("resultcode").equals("00")) {
+                    Log.d("네이버 로그인", "테스트 333");
+
+                    Log.d("네이버 로그인", "테스트 3.1: "+ object.getString("response"));
+                    JSONObject jsonObject = new JSONObject(object.getString("response"));
+                    Log.d("네이버 로그인", "테스트 3.2: "+ object.getString("response"));
+                    user.setId(jsonObject.getString("id"));
+                    user.setEmail(jsonObject.getString("email"));
+                    user.setName(jsonObject.getString("name"));
+                    Log.d("네이버 로그인", "테스트 3.5");
+                    new getUserTask().execute(user.getId());//유저 체크하고 있으면 받아오고 없으면 타입 받는 것으로 이동
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

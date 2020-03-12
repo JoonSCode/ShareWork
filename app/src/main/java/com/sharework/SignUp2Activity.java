@@ -6,10 +6,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sharework.Data.Users;
+import com.sharework.Function.Server;
 
 import java.util.Calendar;
 
@@ -21,13 +20,14 @@ public class SignUp2Activity extends AppCompatActivity {
     private Button mUserBs;
     final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private Users user;
+    private Server server = new Server();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_user_type);
 
-        user = (Users)getIntent().getSerializableExtra("USER");
+        user = server.getUsers();
         mUserBs = findViewById(R.id.activity_user_type_bs);
         mUserPt = findViewById(R.id.activity_user_type_pt);
 
@@ -47,16 +47,13 @@ public class SignUp2Activity extends AppCompatActivity {
 
     private void SignUpComplete(int type){
         Intent intent;
-        DocumentReference docRef = db.collection("Users").document(user.getId());
         user.setType(type);
         user.setCreated_at(Calendar.getInstance().getTime());
         user.setLast_login_at(Calendar.getInstance().getTime());
-        docRef.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d("로그인", "타입까지 설정하여 회원가입 완료");
-            }
-        });
+        server.setUser(user);
+        server.updateUser();
+        Log.d("로그인", "타입까지 설정하여 회원가입 완료");
+
         if(type == 0){
             intent = new Intent(this, PtMainActivity.class);
             intent.putExtra("USER", user);
