@@ -53,8 +53,8 @@ public class LoginActivity extends AppCompatActivity {
     private static OAuthLogin mOAuthLoginInstance;
     private static Context mContext;
 
-    private static String OAUTH_CLIENT_ID = "CLIENT_ID";
-    private static String OAUTH_CLIENT_SECRET = "CLIENT_SECRET";
+    private static String OAUTH_CLIENT_ID = "fFL3jEXaGGiMSQrJxFgY";
+    private static String OAUTH_CLIENT_SECRET = "WV6aaYZZXH";
     private static String OAUTH_CLIENT_NAME = "ShareWork";
 
 

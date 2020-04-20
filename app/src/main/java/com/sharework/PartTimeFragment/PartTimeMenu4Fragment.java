@@ -6,9 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.fragment.app.Fragment;
-
 import com.sharework.R;
+
+import androidx.fragment.app.Fragment;
 
 public class PartTimeMenu4Fragment extends Fragment {
     ViewGroup viewGroup;
@@ -16,10 +16,7 @@ public class PartTimeMenu4Fragment extends Fragment {
     public PartTimeMenu4Fragment() {
         // Required empty public constructor
     }
-    public static PartTimeMenu4Fragment newInstance(String param1, String param2) {
-        PartTimeMenu4Fragment fragment = new PartTimeMenu4Fragment();
-        return fragment;
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

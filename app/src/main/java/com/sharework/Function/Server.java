@@ -1,25 +1,34 @@
 package com.sharework.Function;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.sharework.Data.Business;
 import com.sharework.Data.Users;
 
+import java.util.ArrayList;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class Server {
 
     final private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static Users user;
     private boolean isExist = true;
-
+    private ArrayList<Business> businessArrayList;
     public Server() {
     }
-
 
     public void loadUser(String KEY){
         DocumentReference userRef = db.collection("Users").document(KEY); //유저 확인
@@ -58,6 +67,48 @@ public class Server {
     public void updateUser(){
         db.collection("Users").document(user.getId()).set(user);
     }
+
+    public void RunBsAsync(){
+        new BusinessAsync().execute();
+    }
+
+    public class BusinessAsync extends AsyncTask {
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            getBusiness();
+            while(businessArrayList == null){
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
+    }
+
+    public void getBusiness(){
+        Query query = db.collection("Business").whereEqualTo("user_id", user.getId()); //유저 확인
+        query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w("사업장", "Listen failed.", e);
+                    return;
+                }
+                businessArrayList =  new ArrayList<>();
+                for (QueryDocumentSnapshot doc : value)
+                   businessArrayList.add(doc.toObject(Business.class));
+
+                Log.d("사업장", "가져옴");
+            }
+        });
+    }
+
+
+
+
+
 
 
 }
