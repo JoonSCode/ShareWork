@@ -1,4 +1,4 @@
-package com.sharework;
+package com.sharework.login;
 
 import android.app.Activity;
 import android.app.Application;

@@ -1,4 +1,4 @@
-package com.sharework;
+package com.sharework.login;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -32,8 +32,11 @@ import com.kakao.util.helper.log.Logger;
 import com.nhn.android.naverlogin.OAuthLogin;
 import com.nhn.android.naverlogin.OAuthLoginHandler;
 import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
-import com.sharework.Data.Users;
-import com.sharework.Function.Server;
+import com.sharework.BsMainActivity;
+import com.sharework.PtMainActivity;
+import com.sharework.R;
+import com.sharework.data.Users;
+import com.sharework.function.Server;
 
 import org.json.JSONObject;
 

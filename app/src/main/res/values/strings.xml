@@ -4,4 +4,5 @@
     <string name="tmap_key">l7xxb91f48be6d3842a99b70e58b6c67f5ed</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name = "kakao_rest_api_key">0bd148518238a55b720b705412aa1041</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.sharework.Data;
+package com.sharework.data;
 
 import java.io.Serializable;
 import java.util.Date;

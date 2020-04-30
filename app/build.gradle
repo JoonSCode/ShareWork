@@ -27,6 +27,10 @@ android {
             universalApk true
         }
     }
+    compileOptions {
+        targetCompatibility = "8"
+        sourceCompatibility = "8"
+    }
 }
 
 dependencies {
@@ -66,6 +70,11 @@ dependencies {
     //anko
     implementation "org.jetbrains.anko:anko:$anko_version"
     implementation files('libs\\libDaumMapAndroid.jar')
+
+    // Retrofit
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
 }
 repositories {
     mavenCentral()

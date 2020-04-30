@@ -1,4 +1,4 @@
-package com.sharework;
+package com.sharework.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,8 +7,11 @@ import android.view.View;
 import android.widget.Button;
 
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.sharework.Data.Users;
-import com.sharework.Function.Server;
+import com.sharework.BsMainActivity;
+import com.sharework.PtMainActivity;
+import com.sharework.R;
+import com.sharework.data.Users;
+import com.sharework.function.Server;
 
 import java.util.Calendar;
 

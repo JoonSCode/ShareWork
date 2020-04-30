@@ -1,10 +1,12 @@
-package com.sharework;
+package com.sharework.login;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+
+import com.sharework.R;
 
 import androidx.appcompat.app.AppCompatActivity;
 

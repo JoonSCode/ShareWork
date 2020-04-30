@@ -1,4 +1,4 @@
-package com.sharework;
+package com.sharework.login;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
+
+import com.sharework.PtMainActivity;
+import com.sharework.R;
 
 public class PopupSignInActivity extends Activity {
 

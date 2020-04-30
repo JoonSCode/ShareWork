@@ -1,4 +1,4 @@
-package com.sharework.PartTimeFragment;
+package com.sharework.partTimeFragment;
 
 import android.os.Bundle;
 import android.util.Log;

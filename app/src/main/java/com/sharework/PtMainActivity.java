@@ -9,10 +9,10 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
-import com.sharework.PartTimeFragment.PartTimeMenu1Fragment;
-import com.sharework.PartTimeFragment.PartTimeMenu2Fragment;
-import com.sharework.PartTimeFragment.PartTimeMenu3Fragment;
-import com.sharework.PartTimeFragment.PartTimeMenu4Fragment;
+import com.sharework.partTimeFragment.PartTimeMenu1Fragment;
+import com.sharework.partTimeFragment.PartTimeMenu2Fragment;
+import com.sharework.partTimeFragment.PartTimeMenu3Fragment;
+import com.sharework.partTimeFragment.PartTimeMenu4Fragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,12 +104,12 @@ public class PtMainActivity extends AppCompatActivity {
 
 
     private void checkPermissions() {
-        if (Build.VERSION.SDK_INT >= 23){ // 마시멜로(안드로이드 6.0) 이상 권한 체크
+        if (Build.VERSION.SDK_INT >= 23) { // 마시멜로(안드로이드 6.0) 이상 권한 체크
             TedPermission.with(getApplicationContext())
                     .setPermissionListener(permissionlistener)
                     .setRationaleMessage("위치 설정을 위해서 접근 권한이 필요합니다")
                     .setDeniedMessage("앱에서 요구하는 권한설정이 필요합니다...\n [설정] > [권한] 에서 사용으로 활성화해주세요.")
-                    .setPermissions(new String[] { Manifest.permission.ACCESS_FINE_LOCATION,
+                    .setPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
                             Manifest.permission.ACCESS_COARSE_LOCATION})
                     .check();
 

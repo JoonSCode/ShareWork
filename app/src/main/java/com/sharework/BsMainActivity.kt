@@ -1,24 +1,19 @@
 package com.sharework
 
-import android.Manifest
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
-import com.gun0912.tedpermission.PermissionListener
-import com.gun0912.tedpermission.TedPermission
-import com.sharework.BossFragment.AddBusinessActivity
-import com.sharework.BossFragment.PagerAdapter
-import com.sharework.Data.Users
-import com.sharework.Function.Server
+import com.sharework.bossFragment.AddBusinessActivity
+import com.sharework.bossFragment.PagerAdapter
+import com.sharework.data.Users
+import com.sharework.function.Server
 import org.jetbrains.anko.startActivity
 
 class BsMainActivity : AppCompatActivity() {
@@ -26,12 +21,12 @@ class BsMainActivity : AppCompatActivity() {
     private lateinit var mName: TextView
     private lateinit var mPos: TextView
     private lateinit var mNum: TextView
-    private lateinit var mChangeBusiness : ImageButton
-    private lateinit var mAddPicture : ImageButton
-    private lateinit var mAddBusiness : Button
-    private lateinit var mAddJob : Button
-    private lateinit var server : Server
-    private lateinit var user : Users
+    private lateinit var mChangeBusiness: ImageButton
+    private lateinit var mAddPicture: ImageButton
+    private lateinit var mAddBusiness: Button
+    private lateinit var mAddJob: Button
+    private lateinit var server: Server
+    private lateinit var user: Users
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,25 +45,25 @@ class BsMainActivity : AppCompatActivity() {
 
 
     private fun initFun() {
-        mName.setOnClickListener{
+        mName.setOnClickListener {
             Log.d("BossActivity", "클리익")
         }
-        mAddBusiness.setOnClickListener{
+        mAddBusiness.setOnClickListener {
             Log.d("BossActivity", "영업장 추가버튼 클릭")
             startActivity<AddBusinessActivity>()
         }
-        mAddJob.setOnClickListener{
+        mAddJob.setOnClickListener {
             Log.d("BossActivity", "공고 추가버튼 클릭")
         }
-        mAddPicture.setOnClickListener{
+        mAddPicture.setOnClickListener {
             Log.d("BossActivity", "사진 추가버튼 클릭")
         }
         Log.d("BossActivity", "기능 init")
     }
 
-    private fun initView(){
+    private fun initView() {
         Log.d("BossActivity", "initView")
-        val appBar : AppBarLayout = findViewById(R.id.activity_bs_main_appbar)
+        val appBar: AppBarLayout = findViewById(R.id.activity_bs_main_appbar)
         if (appBar.layoutParams != null) {
             val layoutParams = appBar.layoutParams as CoordinatorLayout.LayoutParams
             val appBarLayoutBehaviour = AppBarLayout.Behavior()

@@ -1,4 +1,4 @@
-package com.sharework.Function;
+package com.sharework.function;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -13,8 +13,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.sharework.Data.Business;
-import com.sharework.Data.Users;
+import com.sharework.data.Business;
+import com.sharework.data.Users;
 
 import java.util.ArrayList;
 

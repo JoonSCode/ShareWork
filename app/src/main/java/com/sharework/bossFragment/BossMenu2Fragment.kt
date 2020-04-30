@@ -1,4 +1,4 @@
-package com.sharework.BossFragment
+package com.sharework.bossFragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
