@@ -6,9 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sharework.R;
-
 import androidx.fragment.app.Fragment;
+
+import com.sharework.R;
 
 public class PartTimeMenu4Fragment extends Fragment {
     ViewGroup viewGroup;
@@ -16,7 +16,6 @@ public class PartTimeMenu4Fragment extends Fragment {
     public PartTimeMenu4Fragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,5 +30,4 @@ public class PartTimeMenu4Fragment extends Fragment {
         viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_part_time_menu4, container, false);
         return viewGroup;
     }
-
 }

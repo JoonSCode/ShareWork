@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 
-class PagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+class PagerAdapter(fm: FragmentManager) :  FragmentPagerAdapter(fm) {
     private val pageMaxCnt = 3
     private val fragment = arrayOf(BossMenu1Fragment(), BossMenu2Fragment(), BossMenu3Fragment())
 

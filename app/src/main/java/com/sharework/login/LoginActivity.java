@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.kakao.auth.AccessTokenCallback;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
@@ -48,8 +50,6 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
 

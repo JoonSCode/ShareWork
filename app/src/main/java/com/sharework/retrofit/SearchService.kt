@@ -11,6 +11,9 @@ interface SearchService {
     @GET("/v2/local/search/keyword.json")
     fun requestSearchPlace(
             @Query("query") keyword: String,
-            @Query("page") page: Int
+            @Query("page") page: Int,
+            @Query("x") longitude: Double,
+            @Query("y") latitude: Double,
+            @Query("radius") rad : Int
     ): Call<Search>
 }

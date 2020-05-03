@@ -6,9 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sharework.R;
-
 import androidx.fragment.app.Fragment;
+
+import com.sharework.R;
 
 
 
@@ -22,7 +22,6 @@ public class PartTimeMenu3Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
