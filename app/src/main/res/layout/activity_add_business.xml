@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#ffffff"
-            app:layout_scrollFlags="enterAlways|enterAlwaysCollapsed"
+            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
 
             app:toolbarId="@+id/toolbar">
 
@@ -71,7 +71,6 @@
                     android:id="@+id/activity_add_business_map_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
-
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -147,10 +146,8 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
-
+        android:background="#ffffff"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/activity_add_business_content_list"

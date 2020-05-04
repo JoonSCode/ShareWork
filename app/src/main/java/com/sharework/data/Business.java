@@ -3,12 +3,12 @@ package com.sharework.data;
 import java.util.Date;
 
 public class Business {
-    private String id;
-    private String user_id;
-    private String name;
-    private String position;
-    private String phone_no;
-    private Date created_at;
+    public String id;
+    public String user_id;
+    public String name;
+    public String position;
+    public String phone_no;
+    public Date created_at;
 
     public Business(String id, String user_id, String name, String position, String phone_no, Date created_at) {
         this.id = id;

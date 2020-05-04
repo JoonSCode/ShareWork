@@ -3,6 +3,9 @@ package com.sharework.function;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -18,13 +21,10 @@ import com.sharework.data.Users;
 
 import java.util.ArrayList;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 public class Server {
 
     final private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private static Users user;
+    public static Users user;
     private boolean isExist = true;
     private ArrayList<Business> businessArrayList;
     public Server() {
@@ -85,6 +85,12 @@ public class Server {
             }
             return null;
         }
+    }
+    public void addBusiness(Business bs){
+        DocumentReference doc = db.collection("Business").document();
+        String key = doc.getId();
+        bs.id = key;
+        doc.set(bs);
     }
 
     public void getBusiness(){

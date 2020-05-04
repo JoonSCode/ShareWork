@@ -17,6 +17,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -37,13 +44,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import androidx.annotation.NonNull;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import static com.google.android.gms.maps.CameraUpdateFactory.newLatLngZoom;
 
@@ -141,12 +141,7 @@ public class PartTimeMenu1Fragment extends Fragment implements OnMapReadyCallbac
         mSearchBtn = view.findViewById(R.id.pt_menu1_btn_search);//검색기능
         mSearchEt = view.findViewById(R.id.pt_menu1_et_search);
         mTrackingBtn = view.findViewById(R.id.pt_menu1_btn_tracking_mode);
-        mTrackingBtn.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getDeviceLocation();
-            }
-        });
+        mTrackingBtn.setOnClickListener(v -> getDeviceLocation());
     }
 
     @Override

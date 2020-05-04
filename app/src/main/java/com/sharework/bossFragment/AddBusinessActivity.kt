@@ -2,21 +2,30 @@ package com.sharework.bossFragment
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.Behavior.DragCallback
 import com.sharework.R
+import com.sharework.data.Business
+import com.sharework.function.Server
+import com.sharework.retrofit.SearchData
 import com.sharework.retrofit.SearchRetrofit
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
 
@@ -25,6 +34,9 @@ class AddBusinessActivity : AppCompatActivity(), MapView.CurrentLocationEventLis
     private lateinit var mapView: MapView
     private lateinit var mapViewContainer: ViewGroup
     private lateinit var centerPoint : MapPoint
+    private lateinit var data: List<SearchData>
+    private lateinit var adapter : AddBusinessListViewAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_business)
@@ -43,6 +55,11 @@ class AddBusinessActivity : AppCompatActivity(), MapView.CurrentLocationEventLis
             })
             layoutParams.behavior = appBarLayoutBehaviour
         }
+        val backBtn : ImageButton = findViewById(R.id.activity_add_business_ibtn_back)
+        backBtn.onClick {
+            onBackPressed()
+        }
+
         val et : EditText = findViewById(R.id.add_business_et_bs)
         val btn = findViewById<Button>(R.id.add_business_btn_search)
         btn.onClick {
@@ -56,7 +73,13 @@ class AddBusinessActivity : AppCompatActivity(), MapView.CurrentLocationEventLis
         mapViewContainer.addView(mapView)
         mapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
         mapView.setCurrentLocationEventListener(this)
+        val recyclerView = findViewById<RecyclerView>(R.id.activity_add_business_content_list)
+        adapter = AddBusinessListViewAdapter(this)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = adapter
+        recyclerView.isNestedScrollingEnabled = false;
     }
+
 
     private fun search(str: String){
         doAsync {
@@ -65,7 +88,12 @@ class AddBusinessActivity : AppCompatActivity(), MapView.CurrentLocationEventLis
             val response = SearchRetrofit.getService().requestSearchPlace(keyword = str, page = 1, longitude = centerPoint.mapPointGeoCoord.longitude,
                     latitude = centerPoint.mapPointGeoCoord.latitude, rad = 20000).execute()
             if (response.isSuccessful) {
-                val data = response.body()!!.documents
+                data = response.body()!!.documents
+                runOnUiThread {
+                    adapter.clear()
+                    adapter.setData(ArrayList(data))
+                    Log.d("retrofit", "recycler 갱신")
+                }
                 Log.d("retrofit", data.toString())
                 var i = 1;
                 var tmp = data[0]
@@ -85,6 +113,7 @@ class AddBusinessActivity : AppCompatActivity(), MapView.CurrentLocationEventLis
             } else
                 Log.d("retrofit", "실패")
         }
+
     }
 
     override fun onCurrentLocationUpdateFailed(p0: MapView?) {

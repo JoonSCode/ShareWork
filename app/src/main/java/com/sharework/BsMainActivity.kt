@@ -87,6 +87,7 @@ class BsMainActivity : AppCompatActivity() {
         mAddJob = findViewById(R.id.activity_bs_main_btn_add_job)
         server = Server()
         user = server.users
+        Log.d("bsmainaa", "user: "+user.name)
         checkPermissions()
     }
     //권한관련 함수------------------------------------------------------
